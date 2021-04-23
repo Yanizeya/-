@@ -59,7 +59,7 @@ public class TetrisScreen extends JFrame{
 			drawscreen.drawGame(g);
 		}
 		
-		Tetris getTetris() {
+		public Tetris getTetris() {
 			return tetris;
 		}
 	}

@@ -9,6 +9,7 @@ import tetrominos.Operate_Tetrominos;
 
 public class Set_Timer {
 	Operate_Tetrominos opTe;
+	public boolean gameOver = false;
 	public Set_Timer(Tetris tetris){
 		opTe = tetris.opTe;
 		Timer timer = new Timer();
@@ -16,7 +17,14 @@ public class Set_Timer {
 		TimerTask timertask = new TimerTask() {
 			public void run() {
 				opTe.moveDown(tetris.gameboard.currentblock);
-				tetris.screen.repaint();
+				
+				if(gameOver) {
+					System.out.println("GameOver");
+					timer.cancel();
+				}
+				else
+					tetris.screen.repaint();
+				
 			}
 		};
 		timer.schedule(timertask, 500, 700);

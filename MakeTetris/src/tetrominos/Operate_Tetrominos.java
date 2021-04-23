@@ -120,6 +120,7 @@ public class Operate_Tetrominos {
 	}
 	
 	public void moveDown (Tetrominos block[][]){
+		System.out.println("moveDown");
 		if(checkMoveable(block))
 			gameboard.currentYnum+=1;
 		
@@ -212,6 +213,7 @@ public class Operate_Tetrominos {
 	private boolean checkMoveable(Tetrominos block[][]) {
 		int currentXnum = gameboard.currentXnum;
 		int currentYnum = gameboard.currentYnum;
+		System.out.println("checkMoveable");
 		for(int i =0; i<4; i++)
 			for(int j=0; j<4; j++){
 				if(block[i][j].use) { 
@@ -237,31 +239,29 @@ public class Operate_Tetrominos {
 	
 	void changeBlockToStack(Tetrominos block[][]) {
 		int higherY=0;
-		Tetrominos st[][] = gameboard.stackblock;
 		System.out.println("changeBlockToStack");
 		for(int i =3; i>=0; i--)
 			for(int j=0; j<4; j++) 
 				if(block[i][j].use) {
 					higherY = i;
-//					System.out.println("curX : " + gameboard.currentXnum + "curY" + gameboard.currentYnum);
 					gameboard.stackblock[gameboard.currentYnum+i][gameboard.currentXnum+j] = block[i][j];
-					
 				}
-		checkClearLine(higherY);
+		if(checkGameOver(higherY) != true) {
+			checkClearLine(higherY);
+		}
 		setTetrominos(block);
-		
-		
-		/*for(int i=0;i<gameboard.numOfHeightblock; i++) {
-			for(int j=0; j<gameboard.numOfWidthblock; j++) {
-				if(gameboard.stackblock[i][j].use)
-					System.out.print("1");
-				else
-					System.out.print("0");
-			}
-			System.out.println();
-		}*/
 	}
 	
+	boolean checkGameOver(int higherY) {
+		if(gameboard.currentYnum+higherY <= 4) {
+			gameboard.getTetris().timer.gameOver = true;
+			return true;
+			}
+		else 
+			return false;
+		
+			
+		}
 	void checkClearLine(int higherY) {
 		int lineToClear[] = {0, 0, 0, 0};
 		System.out.println("higherY="+higherY);
@@ -292,10 +292,8 @@ public class Operate_Tetrominos {
 		int numOfSpace = 0;
 		System.out.println("Run clear line method!");
 		for(int k = 3; k >= 0 ; k--) {
-			System.out.println("Run clear logic!");
 			
 			if(lineToClear[k] == 1) {
-				System.out.println("Run clear line1!");
 				numOfSpace = 1;
 				while((k-numOfSpace) >= 0) {
 					if(lineToClear[k-numOfSpace] == 1)
@@ -305,11 +303,9 @@ public class Operate_Tetrominos {
 				}
 				System.out.println("Run clear line2!");
 				for(int clearLine = currentYnum+k; clearLine-numOfSpace>=0; clearLine--) {
-					System.out.println("clearLine="+clearLine);
 					for(int j = 0; j < gameboard.numOfWidthblock; j++) {
 						gameboard.stackblock[clearLine][j] = gameboard.stackblock[clearLine-numOfSpace][j];
 					}
-					System.out.println("k="+k+" numOfS="+numOfSpace);
 				}
 			}
 		}

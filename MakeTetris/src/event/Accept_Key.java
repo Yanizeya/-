@@ -2,6 +2,7 @@ package event;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Scanner;
 
 import screen.TetrisScreen.Gameboard;
 import tetris.Tetris;
@@ -21,24 +22,32 @@ public class Accept_Key implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		
 		System.out.println("KeyPreesed");
-		if(e.getKeyCode() == KeyEvent.VK_LEFT)
-			opTe.moveLeft(gameboard.currentblock);
-		
-		if(e.getKeyCode() == KeyEvent.VK_RIGHT)
-			opTe.moveRight(gameboard.currentblock);
-		
-		if(e.getKeyCode() == KeyEvent.VK_DOWN)
-			opTe.moveDown(gameboard.currentblock);
-		if(e.getKeyCode() == KeyEvent.VK_SPACE) {
-			Tetrominos curblock = gameboard.currentblock[0][0];
-			while(curblock == gameboard.currentblock[0][0]) {
+		if(tetris.timer.gameOver != true) {
+			if(e.getKeyCode() == KeyEvent.VK_LEFT)
+				opTe.moveLeft(gameboard.currentblock);
+			
+			if(e.getKeyCode() == KeyEvent.VK_RIGHT)
+				opTe.moveRight(gameboard.currentblock);
+			
+			if(e.getKeyCode() == KeyEvent.VK_DOWN)
 				opTe.moveDown(gameboard.currentblock);
-				}
+			if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+				Tetrominos curblock = gameboard.currentblock[0][0];
+				while(curblock == gameboard.currentblock[0][0]) {
+					opTe.moveDown(gameboard.currentblock);
+					}
+			}
+			if(e.getKeyCode() == KeyEvent.VK_UP) {
+				opTe.turnBlock(gameboard.currentblock);
+			}
+			tetris.screen.repaint();
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
-		if(e.getKeyCode() == KeyEvent.VK_UP) {
-			opTe.turnBlock(gameboard.currentblock);
-		}
-		tetris.screen.repaint();
 	}
 
 	@Override

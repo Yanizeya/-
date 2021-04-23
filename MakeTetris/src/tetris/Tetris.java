@@ -12,11 +12,11 @@ public class Tetris {
 	public Gameboard gameboard = screen.gameboard;
 	public Operate_Tetrominos opTe = new Operate_Tetrominos(gameboard);
 	
-	
+	public Set_Timer timer;
 	
 	public Tetris(){
 		tetrisSet();
-		Set_Timer timer = new Set_Timer(this);
+		timer = new Set_Timer(this);
 		screen.addKeyListener(new Accept_Key(this));
 	}
 	
