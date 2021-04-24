@@ -36,7 +36,7 @@ public class TetrisScreen extends JFrame{
 		
 		public int widthOfGameboard = widthOfTetrisScreen/2;
 		public int heightOfGameboard = widthOfGameboard*2;
-		public int gameboardX = widthOfTetrisScreen/5*1, gameboardY = heightOfTetrisScreen/10*1;
+		public int gameboardX = widthOfTetrisScreen/6*1, gameboardY = heightOfTetrisScreen/10*1;
 		public int sizeOfBlock = widthOfGameboard/10;
 		public int numOfWidthblock = 10, numOfHeightblock = 20;
 		
@@ -72,10 +72,10 @@ public class TetrisScreen extends JFrame{
 		}
 	}
 public class Nextboard extends JPanel{
-	public int widthOfGameboard = widthOfTetrisScreen/6;
-	public int heightOfGameboard = widthOfGameboard/2*3;
-	public int gameboardX = 450, gameboardY = 80;
-	public int sizeOfBlock = widthOfGameboard/5;
+	public int widthOfGameboard = widthOfTetrisScreen/5;
+	public int heightOfGameboard = widthOfGameboard/2*2;
+	public int gameboardX = 420, gameboardY = 80;
+	public int sizeOfBlock = widthOfGameboard/6;
 	public int currentXnum = 0;
 	public int currentYnum = 0;
 	Draw_TetrisScreen drawscreen;
