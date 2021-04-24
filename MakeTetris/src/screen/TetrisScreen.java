@@ -14,6 +14,7 @@ import tetrominos.Operate_Tetrominos;
 import tetrominos.Tetrominos;
 public class TetrisScreen extends JFrame{
 	public Tetris tetris;
+	int widthOfTetrisScreen = 600, heightOfTetrisScreen = 800;
 	public Gameboard gameboard = new Gameboard();
 	
 	public TetrisScreen(Tetris tetris){
@@ -21,7 +22,7 @@ public class TetrisScreen extends JFrame{
 		Container c = getContentPane();
 		c.add(gameboard);
 		c.setLayout(null);
-		setSize(600,800);
+		setSize(widthOfTetrisScreen,heightOfTetrisScreen);
 		setLocationRelativeTo(null);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,9 +32,10 @@ public class TetrisScreen extends JFrame{
 	
 	public class Gameboard extends JPanel{
 		
-		public int gameboardX = 20, gameboardY = 40;
-		public int widthOfGameboard = 350;
-		public int heightOfGameboard = 700;
+		
+		public int widthOfGameboard = widthOfTetrisScreen/2;
+		public int heightOfGameboard = widthOfGameboard*2;
+		public int gameboardX = widthOfTetrisScreen/5*1, gameboardY = heightOfTetrisScreen/10*1;
 		public int sizeOfBlock = widthOfGameboard/10;
 		public int numOfWidthblock = 10, numOfHeightblock = 20;
 		
@@ -45,15 +47,20 @@ public class TetrisScreen extends JFrame{
 		public int currentYnum;
 		public int currentRotation;
 		
-		Draw_Screen drawscreen = new Draw_Screen(this);
+		Draw_TetrisScreen drawscreen = new Draw_TetrisScreen(this);
 		
 		public Gameboard() {
 			setBackground(Color.DARK_GRAY);
+			System.out.println(widthOfGameboard);
+			System.out.println(gameboardX);
+			System.out.println(widthOfTetrisScreen);
 			setBounds(gameboardX, gameboardY, widthOfGameboard, heightOfGameboard);
 		}
 		
 		
 		public void paint(Graphics g){
+			//widthOfGameboard = sizeOfTetrisScreenWidth;
+			//heightOfGameboard = sizeOfTetrisScreenHeight;
 			System.out.println("paint");
 			super.paint(g);
 			drawscreen.drawGame(g);

@@ -3,7 +3,6 @@ package event;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import screen.Draw_Screen;
 import tetris.Tetris;
 import tetrominos.Operate_Tetrominos;
 
@@ -24,7 +23,6 @@ public class Set_Timer {
 				}
 				else
 					tetris.screen.repaint();
-				
 			}
 		};
 		timer.schedule(timertask, 500, 700);

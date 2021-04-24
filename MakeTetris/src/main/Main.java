@@ -1,4 +1,5 @@
-package main;
+
+   package main;
 
 import screen.TetrisScreen;
 import tetris.Tetris;

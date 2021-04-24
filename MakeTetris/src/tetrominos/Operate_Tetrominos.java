@@ -7,6 +7,7 @@ import screen.TetrisScreen.Gameboard;
 
 
 public class Operate_Tetrominos {
+	Check_OperatingCondition checkOpCondition;
 	Gameboard gameboard;
 	int sizeOfBlock;
 	Random rand = new Random();
@@ -22,9 +23,11 @@ public class Operate_Tetrominos {
 	private final int T = 5;
 	int blockType;
 	
+	
 	public Operate_Tetrominos(Gameboard gameboard) {
 		this.gameboard = gameboard;
 		sizeOfBlock = gameboard.sizeOfBlock;
+		checkOpCondition = new Check_OperatingCondition(gameboard, this);
 	}
 	
 	public void setNullTetrominos(Tetrominos block[][]) {
@@ -121,7 +124,7 @@ public class Operate_Tetrominos {
 	
 	public void moveDown (Tetrominos block[][]){
 		System.out.println("moveDown");
-		if(checkMoveable(block))
+		if(checkOpCondition.move(block))
 			gameboard.currentYnum+=1;
 		
 		
@@ -210,32 +213,7 @@ public class Operate_Tetrominos {
 					block[i][j].use = false;
 	}
 	
-	private boolean checkMoveable(Tetrominos block[][]) {
-		int currentXnum = gameboard.currentXnum;
-		int currentYnum = gameboard.currentYnum;
-		System.out.println("checkMoveable");
-		for(int i =0; i<4; i++)
-			for(int j=0; j<4; j++){
-				if(block[i][j].use) { 
-					if(currentYnum+i >= gameboard.numOfHeightblock-1) {
-							System.out.println("Floor");
-							changeBlockToStack(block);
-							return false;
-					}
-					if(gameboard.stackblock[i+currentYnum+1][j+currentXnum].use) {
-						System.out.println("Crash");
-						changeBlockToStack(block);
-						return false;
-					}
-				}
-				if(i==3 && j==3)
-						return true;
-				else 
-					continue;
-			}
-		return false;
-		
-	}
+	
 	
 	void changeBlockToStack(Tetrominos block[][]) {
 		int higherY=0;
@@ -246,49 +224,21 @@ public class Operate_Tetrominos {
 					higherY = i;
 					gameboard.stackblock[gameboard.currentYnum+i][gameboard.currentXnum+j] = block[i][j];
 				}
-		if(checkGameOver(higherY) != true) {
-			checkClearLine(higherY);
+		if(checkOpCondition.gameOver(higherY) != true) {
+			checkOpCondition.clearLine(higherY);
 		}
+		else
+			gameOver();
 		setTetrominos(block);
 	}
 	
-	boolean checkGameOver(int higherY) {
-		if(gameboard.currentYnum+higherY <= 4) {
-			gameboard.getTetris().timer.gameOver = true;
-			return true;
-			}
-		else 
-			return false;
-		
-			
-		}
-	void checkClearLine(int higherY) {
-		int lineToClear[] = {0, 0, 0, 0};
-		System.out.println("higherY="+higherY);
-		for(int floorOfBox = 3; higherY <= floorOfBox; higherY++) {
-			for(int j=0; j<gameboard.numOfWidthblock; j++) {
-				if(gameboard.stackblock[gameboard.currentYnum+higherY][j].use) {
-					if(j == gameboard.numOfWidthblock-1)
-						lineToClear[higherY] = 1;
-					else
-						continue;
-				}
-				else {
-					System.out.println("Break!");
-					break;
-				}
-			}
-		}
-
-		for(int i=0;i<4;i++)
-			System.out.print(lineToClear[i]);
-		System.out.println();
-		
-		runClearLine(lineToClear);
-	}
 	
-	void runClearLine(int lineToClear[]) {
-		int currentYnum = gameboard.currentYnum, currentXnum = gameboard.currentXnum, numOfHeightblock = gameboard.numOfHeightblock;
+	
+	void gameOver(){
+		gameboard.getTetris().timer.gameOver = true;
+	}
+	void ClearLine(int lineToClear[]) {
+		int currentYnum = gameboard.currentYnum;
 		int numOfSpace = 0;
 		System.out.println("Run clear line method!");
 		for(int k = 3; k >= 0 ; k--) {
@@ -309,10 +259,6 @@ public class Operate_Tetrominos {
 				}
 			}
 		}
-	}
-	public void gameOverCheck (){
-		
-		
 	}
 }
 	
