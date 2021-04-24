@@ -21,7 +21,7 @@ public class Accept_Key implements KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		
-		System.out.println("KeyPreesed");
+		
 		if(tetris.timer.gameOver != true) {
 			if(e.getKeyCode() == KeyEvent.VK_LEFT)
 				opTe.moveLeft(gameboard.currentblock);
@@ -40,7 +40,11 @@ public class Accept_Key implements KeyListener{
 			if(e.getKeyCode() == KeyEvent.VK_UP) {
 				opTe.turnBlock(gameboard.currentblock);
 			}
-			tetris.screen.repaint();
+			if(tetris.timer.gameOver != true) {
+				System.out.println("keypress repaint");
+				tetris.screen.repaint();
+			}
+			
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e1) {

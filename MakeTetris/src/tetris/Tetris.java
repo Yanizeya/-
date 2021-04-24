@@ -22,7 +22,8 @@ public class Tetris {
 	
 	public void tetrisSet (){
 		System.out.println("tetrisSet");
-		opTe.setTetrominos(gameboard.currentblock);
+		opTe.setCurrentTetrominos(gameboard.currentblock);
 		opTe.setNullTetrominos(gameboard.stackblock);
+		opTe.setNextTetrominos(gameboard.nextblock);
 	}
 }

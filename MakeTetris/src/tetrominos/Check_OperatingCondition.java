@@ -11,7 +11,7 @@ public class Check_OperatingCondition {
 	}
 	
 	
-	public boolean move(Tetrominos block[][]) {
+	public boolean moveDown(Tetrominos block[][]) {
 		int currentXnum = gameboard.currentXnum;
 		int currentYnum = gameboard.currentYnum;
 		System.out.println("checkMoveable");
@@ -64,7 +64,7 @@ public class Check_OperatingCondition {
 	}
 	
 	boolean gameOver(int higherY) {
-		if(gameboard.currentYnum+higherY <= 2) {
+		if(gameboard.currentYnum+higherY <= 3) {
 			return true;
 			}
 		else 

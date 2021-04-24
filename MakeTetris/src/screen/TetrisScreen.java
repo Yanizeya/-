@@ -16,11 +16,12 @@ public class TetrisScreen extends JFrame{
 	public Tetris tetris;
 	int widthOfTetrisScreen = 600, heightOfTetrisScreen = 800;
 	public Gameboard gameboard = new Gameboard();
-	
+	public Nextboard nextboard = new Nextboard(gameboard);
 	public TetrisScreen(Tetris tetris){
 		this.tetris = tetris;
 		Container c = getContentPane();
 		c.add(gameboard);
+		c.add(nextboard);
 		c.setLayout(null);
 		setSize(widthOfTetrisScreen,heightOfTetrisScreen);
 		setLocationRelativeTo(null);
@@ -41,7 +42,7 @@ public class TetrisScreen extends JFrame{
 		
 		public Tetrominos stackblock[][] = new Tetrominos[numOfHeightblock][numOfWidthblock];
 		public Tetrominos currentblock[][] = new Tetrominos[4][4];
-		public Tetrominos nextblock;
+		public Tetrominos nextblock[][]= new Tetrominos[4][4];
 		
 		public int currentXnum;
 		public int currentYnum;
@@ -59,16 +60,40 @@ public class TetrisScreen extends JFrame{
 		
 		
 		public void paint(Graphics g){
-			//widthOfGameboard = sizeOfTetrisScreenWidth;
-			//heightOfGameboard = sizeOfTetrisScreenHeight;
 			System.out.println("paint");
 			super.paint(g);
-			drawscreen.drawGame(g);
+			drawscreen.drawGameblock(g);
 		}
 		
 		public Tetris getTetris() {
 			return tetris;
+		}public Nextboard getNextboard() {
+			return nextboard;
 		}
 	}
-
+public class Nextboard extends JPanel{
+	public int widthOfGameboard = widthOfTetrisScreen/6;
+	public int heightOfGameboard = widthOfGameboard/2*3;
+	public int gameboardX = 450, gameboardY = 80;
+	public int sizeOfBlock = widthOfGameboard/5;
+	public int currentXnum = 0;
+	public int currentYnum = 0;
+	Draw_TetrisScreen drawscreen;
+	
+	public Nextboard(Gameboard gameboard) {
+		setBackground(Color.DARK_GRAY);
+		System.out.println(widthOfGameboard);
+		System.out.println(gameboardX);
+		System.out.println(widthOfTetrisScreen);
+		setBounds(gameboardX, gameboardY, widthOfGameboard, heightOfGameboard);
+		drawscreen = new Draw_TetrisScreen(gameboard);
+	}
+	
+	
+	public void paint(Graphics g){
+		super.paint(g);
+		//drawscreen.drawGame(g);
+		drawscreen.drawNextblock(g);
+	}
+	}
 }

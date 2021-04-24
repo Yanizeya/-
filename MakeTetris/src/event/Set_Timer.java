@@ -21,8 +21,10 @@ public class Set_Timer {
 					System.out.println("GameOver");
 					timer.cancel();
 				}
-				else
+				else {
+					System.out.println("timer repaint");
 					tetris.screen.repaint();
+				}
 			}
 		};
 		timer.schedule(timertask, 500, 700);

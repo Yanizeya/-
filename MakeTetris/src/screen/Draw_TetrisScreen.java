@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import screen.TetrisScreen.Gameboard;
+import screen.TetrisScreen.Nextboard;
 import tetrominos.Tetrominos;
 
 public class Draw_TetrisScreen {
@@ -20,15 +21,28 @@ public class Draw_TetrisScreen {
 		this.numOfHeightblock = gameboard.numOfHeightblock;
 	}
 	
-	public void drawGame(Graphics g){
-		drawGameblock(g);
+	public void drawNextblock(Graphics g) {
+		int sizeOfBlock = gameboard.getNextboard().sizeOfBlock;
+		int currentXnum = gameboard.getNextboard().currentXnum, currentYnum = gameboard.getNextboard().currentYnum;
+		for(int i=0; i<4; i++)
+			for(int j =0; j<4; j++)	
+			{
+				if(gameboard.nextblock[i][j].use) {
+				g.setColor(gameboard.nextblock[i][j].color);
+				g.fill3DRect(sizeOfBlock*j+30, sizeOfBlock*i+6, sizeOfBlock, sizeOfBlock, true);
+				}
+			}
 	}
 	
-	private void drawGameblock(Graphics g){
-		drawStackblock(g);
-		drawCurrentblock(g);
-		drawPredictblock(g);
+	public void drawGameblock(Graphics g){
+		System.out.println("draw gameoverline");
 		drawGameOverline(g);
+		System.out.println("draw stackblock");
+		drawStackblock(g);
+		System.out.println("draw currentblock");
+		drawCurrentblock(g);
+		System.out.println("draw predictblock");
+		drawPredictblock(g);
 	}
 	
 	
@@ -50,8 +64,8 @@ public class Draw_TetrisScreen {
 			for(int j =0; j<numOfWidthblock; j++)	
 			{
 				if(gameboard.stackblock[i][j].use) {
-				g.setColor(gameboard.stackblock[i][j].color);
-				g.fill3DRect(j*sizeOfBlock, i*sizeOfBlock, sizeOfBlock, sizeOfBlock, true);
+					g.setColor(gameboard.stackblock[i][j].color);
+					g.fill3DRect(j*sizeOfBlock, i*sizeOfBlock, sizeOfBlock, sizeOfBlock, true);
 				}
 			}
 		
@@ -77,11 +91,9 @@ public class Draw_TetrisScreen {
 										if(currentblock[i2][j2].use) { 
 											if(spaceOfCurrentblockAndPredictblock + i2< 4) {
 												if(gameboard.currentblock[spaceOfCurrentblockAndPredictblock+i2][j2].use) { //만약에 predict블럭을 그릴 cur블럭의 자리에 currentblock이 있다면
-													System.out.println("i2="+i2+" j2="+j2);
 													continue;
 												}
-											}
-											System.out.println("curYnum="+curYnum+" currentYnum="+gameboard.currentYnum);
+											}     
 											g.setColor(gameboard.currentblock[i2][j2].color);
 											g.draw3DRect((curXnum+j2)*sizeOfBlock, (curYnum+i2-1)*sizeOfBlock, sizeOfBlock, sizeOfBlock, true);
 										}
@@ -113,6 +125,12 @@ public class Draw_TetrisScreen {
 	}
 	
 	void drawGameOverline(Graphics g) {
+		
+		g.setColor(Color.pink);
+		g.drawLine(0, sizeOfBlock*3, sizeOfBlock*numOfWidthblock, sizeOfBlock*3) ;
+	}
+	
+	void drawblock() {
 		
 	}
 }

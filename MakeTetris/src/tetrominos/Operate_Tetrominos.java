@@ -21,7 +21,8 @@ public class Operate_Tetrominos {
 	private final int R = 3;
 	private final int S = 4;
 	private final int T = 5;
-	int blockType;
+	int currentBlockType;
+	int nextBlockType;
 	
 	
 	public Operate_Tetrominos(Gameboard gameboard) {
@@ -37,18 +38,24 @@ public class Operate_Tetrominos {
 			}
 		}
 	}
-	
-	public void setTetrominos (Tetrominos block[][]){
-		System.out.println("setTetrominos");
+	public void setCurrentTetrominos (Tetrominos block[][]) {
+		System.out.println("setCurrentTetrominos");
+		currentBlockType = rand.nextInt(5)+1;
+		setTetrominos(block, currentBlockType);
+	}
+	public void setNextTetrominos (Tetrominos block[][]) {
+		System.out.println("setNextTetrominos");
+		nextBlockType = rand.nextInt(5)+1;
+		setTetrominos(block, nextBlockType);
+	}
+	private void setTetrominos (Tetrominos block[][], int blockType){
 		tetroI = new Tetrominos_I();
 		tetroL = new Tetrominos_L();
 		tetroR = new Tetrominos_R();
 		tetroS = new Tetrominos_S();
 		tetroT = new Tetrominos_T();
-		Color color = Color.DARK_GRAY;
+		Color color;
 		int currentRotation;
-		blockType = rand.nextInt(5)+1;
-		System.out.println("random = " + blockType);
 		gameboard.currentXnum = 2;
 		gameboard.currentYnum = 0;
 		gameboard.currentRotation = 0;
@@ -70,6 +77,8 @@ public class Operate_Tetrominos {
 		case 5:
 			color = Color.WHITE;
 			break;
+		default:
+			color = Color.DARK_GRAY;
 		}
 		
 		for(int i =0; i<4; i++)	{
@@ -111,20 +120,11 @@ public class Operate_Tetrominos {
 			}
 		}
 		
-		for(int i = 0; i < 4; i++) {
-			for(int j = 0 ; j < 4; j++) {
-				if(gameboard.currentblock[i][j].use)
-					System.out.print("1");
-				else
-					System.out.print("0");
-			}
-			System.out.println();
-		}
 	}
 	
 	public void moveDown (Tetrominos block[][]){
 		System.out.println("moveDown");
-		if(checkOpCondition.move(block))
+		if(checkOpCondition.moveDown(block))
 			gameboard.currentYnum+=1;
 		
 		
@@ -157,7 +157,7 @@ public class Operate_Tetrominos {
 	}
 	
 	public void turnBlock (Tetrominos block[][]){
-		
+		System.out.println("turnBlock");
 		boolean subblock[][] = new boolean[4][4];
 		
 		if(block[0][0].numOfRotation-1 > gameboard.currentRotation) {
@@ -166,12 +166,12 @@ public class Operate_Tetrominos {
 		else
 			gameboard.currentRotation = 0;
 		
-		System.out.println(block[0][0].numOfRotation);
-		System.out.println(gameboard.currentRotation);
+		System.out.println("blockType = "+currentBlockType);
+		System.out.println("currentRotation="+gameboard.currentRotation);
 		for(int i =0; i<4; i++)	
 			for(int j=0; j<4; j++) {
 				subblock[i][j] = false;
-				switch(blockType) {
+				switch(currentBlockType) {
 				case I:
 					if(tetroI.block[gameboard.currentRotation][i][j] == 1) {
 						subblock[i][j] = true;}
@@ -224,12 +224,21 @@ public class Operate_Tetrominos {
 					higherY = i;
 					gameboard.stackblock[gameboard.currentYnum+i][gameboard.currentXnum+j] = block[i][j];
 				}
+		
 		if(checkOpCondition.gameOver(higherY) != true) {
 			checkOpCondition.clearLine(higherY);
+			
 		}
 		else
 			gameOver();
-		setTetrominos(block);
+		
+		for(int i=0; i<4;i++)
+			for(int j=0; j<4; j++) {
+				block[i][j] = gameboard.nextblock[i][j];
+			}
+		currentBlockType = nextBlockType;     
+		setNextTetrominos(gameboard.nextblock);
+		
 	}
 	
 	
